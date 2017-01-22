@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.adventuresquad.squidbot.brain";
+option java_outer_classname = "BrainProto";
+
+package squidbot;
+
+service Brain {
+  // Posts a message from a frontend
+  rpc OnNewMessage(MessageRequest) returns (MessageResponse) {}
+}
+
+// A message coming in from a frontend driver containing the sender's handle
+message MessageRequest {
+  // Used to help coordinate requests to replies.
+  required int64 unique_id = 1;
+
+  // Timestamp of the message as specified by the upstream service -- not the
+  // frontend driver for squidbot.
+  required int64 timestamp = 2;
+
+  // The name of the sender who sent this message.
+  required string sender_handle = 3;
+
+  // The body of the message.
+  required string message_body = 4;
+}
+
+message MessageResponse {
+  // The id of the message sent from a frontend to the brain. Helps to
+  // coordinate the responses to the reuqests.
+  required int64 unique_id = 1;
+
+  // The message containing the response.
+  required string message_body = 2;
+}
