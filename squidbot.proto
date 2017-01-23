@@ -25,6 +25,12 @@ message MessageRequest {
 
   // The body of the message.
   string message_body = 4;
+
+  // The channel the message was sent in.
+  string channel_name = 5;
+
+  // Was this a 1:1 message?
+  bool is_one_to_one = 6;
 }
 
 message MessageResponse {
