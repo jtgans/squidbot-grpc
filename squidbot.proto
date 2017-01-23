@@ -7,8 +7,25 @@ option java_outer_classname = "SquidbotProto";
 package protocols;
 
 service Brain {
+  // First call that a frontend must make to the brain to ensure that it
+  // supports the correct version of the brain and also ensure the brain is up.
+  rpc FrontendStarted(FrontendRequest) returns (FrontendResponse) {}
+
   // Posts a message from a frontend
   rpc OnNewMessage(MessageRequest) returns (MessageResponse) {}
+}
+
+message FrontendRequest {
+  // The version number of the frontend making the start request.
+  string frontend_version = 1;
+
+  // The name of the frontend making the start request.
+  string frontend_name = 2;
+}
+
+message FrontendResponse {
+  // The version of the brain server the frontend is speaking to.
+  string brain_version = 1;
 }
 
 // A message coming in from a frontend driver containing the sender's handle
